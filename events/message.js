@@ -153,7 +153,7 @@ return client.users.cache.get("765151089620156418").send(e);
 
 }
 
-} else if (db.has(`${message.guild.id}.automod_swears)) {
+} else if (db.has(`${message.guild.id}.automod_swears`)) {
 
 if (is_swear(message.content.toLowerCase())) {
 
