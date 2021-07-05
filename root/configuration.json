@@ -1,0 +1,6 @@
+{
+"token": "token",
+"ownerid": "ID",
+"adminsid": ["id", "id"],
+"bot_prefix": "AB"
+}
