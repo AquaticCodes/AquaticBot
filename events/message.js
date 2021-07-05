@@ -75,7 +75,7 @@ if the guild has enabled auto leveling system
 
 }
 
-if (db.has(`${message.guild.id}.automod`)) {
+if (db.has(`${message.guild.id}.automod`)) {/*
 
 If Auto-Moderation Service Is Enabled:
 
