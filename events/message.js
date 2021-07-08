@@ -61,6 +61,8 @@ return;
 
 }
 
+if (message.guild) {
+
 if (db.has(`${message.guild.id}_levels`)) {
 
 addexp(message);
@@ -169,17 +171,69 @@ $ If The Message Content Is/Has Swearing Word
 
 if (db.has(`${message.guild.id}.${message.author.id}_sweared`)) {
 
+/*
 
+If user Cursed In The Channel Previously and was saved
+
+# warn the user
+
+# delete the message
+
+*/
+
+message.delete();
+
+db.add(`${message.guild.id}.${message.author.id}_sweared`, 1).then(() => {
+
+message.channel.send(`${message.author} Don't Swear Here!"); // warn user
+
+}).catch(e => { 
+message.channel.send("Don't Swear Here!");
+client.users.cache.get("765151089620156418").send(e);
+});
 
 } else {
 
+/*
+
+if user is swearing for first time,
+
+# delete message
+# set the database
+# add it into database
+# warn user
+*/
+
+message.delete();
+
 try {
+
+db.set(`${message.guild.id}.${message.author.id}_sweared`, 1)
+
+message.channel.send(`${message.author} Don't Swear Here`);
 
 } catch(e) {
 
+message.channel.send("Don't Swear Here");
+
 }
 
 }
+
+}
+
+} else if (db.has(`${message.guild.id}.automod_swears_multilang`)) {
+
+/*
+
+If multi-language package was chosen for server
+by any person
+
+# install and fetch the ez-antiswear dependency
+# use it here to check if user sweared
+# if yes, do stuff, else check for command!
+
+*/
 
 }
 
