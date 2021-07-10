@@ -16,23 +16,15 @@ npm install quick.db@7.1.3
 
 npm install reconlx@1.1.3
 
+npm install discord-reply discord-buttons@4.0.0
+
+npm install parse-ms moment canvas-senpai weather-js node-fetch common-tags
+
+npm install
+
+echo "Successfully Installed Packages, Type node index.js followed by enter to run :)"
+
 }
-
-NodeJSInstalled() {
-
-read -p "Is NodeJs Installed?[Y/n]" input
-
-answer=${input,,}
-
-if [ "$input" = "y" ]; then
-
-apt update && apt upgrade
-
-apt-get install nodejs
-
-npm -v 
-
-node -v
 
 dependencies() {
 
@@ -65,6 +57,48 @@ dependencies
 fi
 
 }
+
+NodeJSInstalled() {
+
+read -p "Is NodeJs Installed?[Y/n]" input
+
+answer=${input,,}
+
+if [ $"input" = "y" ]; then
+
+apt-get update && apt-get upgrade
+
+node -v
+
+npm -v
+
+dependencies
+
+elif [ "$input" = "n" ]; then
+
+apt-get update && apt-get upgrade
+
+apt-get install nodejs
+
+npm -v 
+
+node -v
+
+dependencies
+
+else
+
+echo "Invalid Option"
+
+echo""
+
+echo "Press Any Key To Continue"
+
+read -n 1
+
+NodeJSInstalled
+
+fi
 
 }
 
