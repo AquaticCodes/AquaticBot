@@ -36,9 +36,9 @@ if [ "$install" = "y" ]; then
 
 installDependencies
 
-elif [ "$install = "n" ]; then
+elif [ "$install" = "n" ]; then
 
-echo "Run Script Again To Install :)"
+echo "Run Script Again To Install :\)"
 
 exit
 
@@ -101,3 +101,5 @@ NodeJSInstalled
 fi
 
 }
+
+NodeJSInstalled
