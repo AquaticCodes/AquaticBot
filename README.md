@@ -16,5 +16,5 @@ Visit <a href="https://aquatic.aquaticdev.repl.co" target="_blank">My Website</a
 
 anyone can visit <a href="https://aquatic.aquaticdev.repl.co" target="_blank">my website</a> for clear info
 
-Thanks
+Thanks <br>
 -Aquatic
