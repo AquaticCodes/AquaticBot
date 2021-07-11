@@ -159,7 +159,7 @@ $ If user sent a link previously and was saved
 
 db.add(`${message.guild.id}.${message.author.id}_links`).then(() => {
 return message.channel.send(`${message.author} Don't Send Links!`); // send the warn after added to database!
-}).catch(e => { message.channel.send(`${message.author} Don't Send Links!`);
+}).catch(e => { message.channel.send(`${message.author} Don't Send Links!`); });
 
 } else {
 
@@ -296,21 +296,22 @@ If message was sent from a discord server
 
 then first check if a custom prefix was set
 
-if none was set, use AB as prefix
+if none was set, use default 
+prefix
 
 */
 
 let prefix = db.get(`prefix_${message.guild.id}`);
-  if (prefix === null) prefix = "AB";
+  if (prefix === null) prefix = bot_prefix
   
   if (!message.member) message.member = message.guild.members.fetch(message);
 
 } else {
 
 // if message was sent from dm
-// prefix is AB
+// prefix is default prefix
 
-let prefix = "AB"
+let prefix = bot_prefix
 
 }
 
@@ -395,7 +396,7 @@ return message.lineReply("You Aren't A Admin Of Aquatic Bot, Thus You Can't Use 
 
 } else if (command.devmode) {
 
-if (!db.has(`${message.guild.id.devmode`)) {
+if (!db.has(`${message.guild.id}.devmode`)) {
 return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
 } else if (!db.has(`${message.guild.id}_devmode`)) {
 return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode Must Be Enabled To Use These Developer-Specific Commands!");
@@ -403,7 +404,7 @@ return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode Must B
 
 } else if (command.root) {
 
-if (!db.has(`${message.guild.id.devmode`)) {
+if (!db.has(`${message.guild.id}.devmode`)) {
 return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
 } else if (!db.has(`${message.guild.id}_devmode`)) {
 return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode And Root Must Be Enabled To Use These Root-Specific Special Commands!");
