@@ -9,8 +9,8 @@ const is_swear = require("../functions/isswear.js");
 const { simillarCommand, normalize } = require('simillar-commands');
 const { MessageEmbed } = require("discord.js");
 const discord = require("discord.js");
+const { confirmation } = require("reconlx");
 require("discord-reply"); 
-require("reconlx");
 const AntiSwear = require("ez-antiswear"),
   filterAR = new AntiSwear("ar"),
   filterCS = new AntiSwear("cs"),
@@ -443,9 +443,24 @@ command.run(client, message, args);
 
 const nearCommand = simillarCommand(client.commands, cmd);
 
-const didYouMean = message.channel.send(`No Such Command ${cmd} Has Been Found, Did You Mean **${nearCommand}**?`)
+message.channel.send(`No Such Command ${cmd} Has Been Found, Did You Mean **${nearCommand}**?`).then(async (msg) => {
 
+const emoji = await confirmation(msg, ["✅", "❌"], 15000);
+    if (emoji === "✅") {
+        
+        msg.delete();
+        
+        const commandToRun = client.commands.get(nearCommand)
+        commandToRun.run(client, message, args);
 
+    }
+    if (emoji === "❌") {
+
+msg.delete();
+ 
+    }
+
+});
 
 }
 
