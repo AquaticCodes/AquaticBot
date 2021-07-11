@@ -363,4 +363,8 @@ message.channel.send(guildCommand_usedNow.responce)
 let command = client.commands.get(cmd); // find the command
 if (!command) command = client.commands.get(client.aliases.get(cmd)); // if no such command, check the command with aliases
 
+/* ＶＡＲＩＯＵＳ ＣＯＭＭＡＮＤ ＲＥＳＴＲＩＣＴＩＯＮＳ */
+
+ｉｆ
+
 }
