@@ -9,6 +9,29 @@ const is_swear = require("../functions/isswear.js");
 const { MessageEmbed } = require("discord.js");
 const discord = require("discord.js");
 require("discord-reply"); 
+require("reconlx");
+const AntiSwear = require("ez-antiswear"),
+  filterAR = new AntiSwear("ar"),
+  filterCS = new AntiSwear("cs"),
+  filterDA = new AntiSwear("da"),
+  filterDE = new AntiSwear("de"),
+  filterEO = new AntiSwear("eo"),
+  filterES = new AntiSwear("es"),
+  filterFA = new AntiSwear("fa"),
+  filterFI = new AntiSwear("fi"),
+  filterFIL = new AntiSwear("fil"),
+  filterFR = new AntiSwear("fr"),
+  filterHI = new AntiSwear("hi"),
+  filterHU = new AntiSwear("hu"),
+  filterIT = new AntiSwear("it"),
+  filterJA = new AntiSwear("ja"),
+  filterKAB = new AntiSwear("kab"),
+  filterKO = new AntiSwear("ko"),
+  filterNL = new AntiSwear("nl"),
+  filterNO = new AntiSwear("no"),
+  filterPL = new AntiSwear("pl"),
+  filterPT = new AntiSwear("pt"),
+  filterEN = new AntiSwear("en");
 
 /*
 
@@ -22,6 +45,8 @@ Modules Imported:
 # get function to check if message content has swearing words
 # import discord.js and embed creation from discord.js
 # import a module for stylish replies
+# ez-antiswear, a module to check multi language swearing words
+# reconlx, a multi task package
 
 */
 
@@ -76,6 +101,8 @@ if the guild has enabled auto leveling system
 */
 
 }
+
+/* ＡＵＴＯ ＭＯＤＥＲＡＴＩＯＮ */
 
 if (db.has(`${message.guild.id}.automod`)) {/*
 
@@ -235,12 +262,16 @@ by any person
 
 */
 
-}
+if (filterAR.check(message.content) || filterEN.check(message.content) || filterCS.check(message.content) || filterDA.check(message.content) || filterDE.check(message.content) || filterEO.check(message.content) ||  filterES.check(message.content) || filterFA.check(message.content) || filterFI.check(message.content) || filterFIL.check(message.content) || filterFR.check(message.content) || filterHI.check(message.content) || filterHU.check(message.content) || filterIT(message.content) || filterJA.check(message.content) || filterKAB.check(message.content) || filterKO.check(message.content) || filterNL.check(message.content) || filterNO.check(message.content) || filterPL.check(message.content) || filterPT.check(message.content)) {
+    return message.delete();
+  }
 
 }
 
 }
 
+}
 
+/* ＡＵＴＯ ＭＯＤＥＲＡＴＩＯＮ ＣＯＭＰＬＥＴＥＤ */
 
 }
