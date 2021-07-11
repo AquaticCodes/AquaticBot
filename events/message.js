@@ -376,6 +376,13 @@ return message.lineReplyNoMention("Only My Developer Can Use This Command!");
 if (!db.has(`${message.guild.id}.NSFW`)) {
 return message.lineReply("NSFW Commands Isn't Enabled In This Server");
 } else if (!message.channel.nsfw) {
+
+let NSFW_channelsOnly = new MessageEmbed()
+.setColor("#FD0000")
+.attachFiles
+.setTitle("NSFW Command In Non-NSFW channel")
+.setDescription(`We See, You Used ${cmd} Which Is A NSFW Command, Either Use These Commands In DM (or) \n - Enable NSFW To This Channel \n (or) \n - Use These Commands In A NSFW Channel`);
+
 return message.lineReply(NSFW_channelsOnly);
 }
 
