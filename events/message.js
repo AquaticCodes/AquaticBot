@@ -6,6 +6,7 @@ const { ownerid, adminsid, bot_prefix } = require("../root/configuration.json");
 let cooldown = {}
 const is_url = require("../functions/islink.js");
 const is_swear = require("../functions/isswear.js");
+const { simillarCommand, normalize } = require('simillar-commands');
 const { MessageEmbed } = require("discord.js");
 const discord = require("discord.js");
 require("discord-reply"); 
@@ -47,6 +48,17 @@ Modules Imported:
 # import a module for stylish replies
 # ez-antiswear, a module to check multi language swearing words
 # reconlx, a multi task package
+# package to make a did you mean? => {
+
+well we could use Levenshtein Distance algorithm
+
+but im too lazy to code such huge algorithm 
+
+so here is a package to simple that
+
+to make it more simpler, im using direct discord one :)
+
+}
 
 */
 
