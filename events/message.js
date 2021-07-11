@@ -379,7 +379,7 @@ return message.lineReply("NSFW Commands Isn't Enabled In This Server");
 
 let NSFW_channelsOnly = new MessageEmbed()
 .setColor("#FD0000")
-.attachFiles(['../assets/NSFW/nsfwChannel.gif'])
+.setImage('../assets/nsfw/nsfwChannel.jpeg')
 .setTitle("NSFW Command In Non-NSFW channel")
 .setDescription(`We See, You Used ${cmd} Which Is A NSFW Command, Either Use These Commands In DM (or) \n - Enable NSFW To This Channel \n (or) \n - Use These Commands In A NSFW Channel`);
 
@@ -440,6 +440,10 @@ if (command) {
 command.run(client, message, args);
 
 } else {
+
+const nearCommand = simillarCommand(client.commands, cmd);
+
+const didYouMean = message.channel.send(`No Such Command ${cmd} Has Been Found, Did You Mean **${nearCommand}**?`)
 
 
 
