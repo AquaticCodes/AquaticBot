@@ -18,7 +18,9 @@ npm install reconlx@1.1.3
 
 npm install discord-reply discord-buttons@4.0.0
 
-npm install parse-ms moment canvas-senpai weather-js node-fetch common-tags
+npm install parse-ms moment canvas-senpai weather-js node-fetch common-tags ez-antiswear@1.0.0 
+
+npm install ascii-table
 
 npm install
 
