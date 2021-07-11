@@ -212,7 +212,7 @@ message.delete();
 
 db.add(`${message.guild.id}.${message.author.id}_sweared`, 1).then(() => {
 
-message.channel.send(`${message.author} Don't Swear Here!"); // warn user
+message.channel.send(`${message.author} Don't Swear Here!`); // warn user
 
 }).catch(e => { 
 message.channel.send("Don't Swear Here!");
