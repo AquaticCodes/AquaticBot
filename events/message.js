@@ -365,6 +365,19 @@ if (!command) command = client.commands.get(client.aliases.get(cmd)); // if no s
 
 /* ＶＡＲＩＯＵＳ ＣＯＭＭＡＮＤ ＲＥＳＴＲＩＣＴＩＯＮＳ */
 
-ｉｆ
+if (command.owner) {
+
+if (message.author.id != ownerid) {
+return message.lineReplyNoMention("Only My Developer Can Use This Command!");
+}
+
+} else if (command.nsfw) {
+
+if (!db.has(`${message.guild.id}.NSFW`)) {
+return message.lineReply("NSFW Commands Isn't Enabled In This Server");
+} else if (
+
+}
+
 
 }
