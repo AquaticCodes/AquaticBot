@@ -375,9 +375,66 @@ return message.lineReplyNoMention("Only My Developer Can Use This Command!");
 
 if (!db.has(`${message.guild.id}.NSFW`)) {
 return message.lineReply("NSFW Commands Isn't Enabled In This Server");
-} else if (
+} else if (!message.channel.nsfw) {
+return message.lineReply(NSFW_channelsOnly);
+}
+
+} else if (command.adminsOnly) {
+
+if (!adminsid.includes(message.author.id.toString())) {
+return message.lineReply("You Aren't A Admin Of Aquatic Bot, Thus You Can't Use This Command!");
+}
+
+} else if (command.devmode) {
+
+if (!db.has(`${message.guild.id.devmode`)) {
+return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
+} else if (!db.has(`${message.guild.id}_devmode`)) {
+return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode Must Be Enabled To Use These Developer-Specific Commands!");
+}
+
+} else if (command.root) {
+
+if (!db.has(`${message.guild.id.devmode`)) {
+return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
+} else if (!db.has(`${message.guild.id}_devmode`)) {
+return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode And Root Must Be Enabled To Use These Root-Specific Special Commands!");
+} else if (!db.has(`${message.guild.id}_root`)) {
+return message.lineReply("No Root Permission Granted (or) Enabled. \n Enable Root, Root Must Be Enabled To Use These Root-Specific-Special Commands!");
+}
+
+} else if (command.guild && !message.guild) {
+
+return message.lineReply(`These Commands Such As ${cmd} Must Be Used In Guild [ Any Discord Servers ] Only`);
+
+} else if (command.dm) {
+
+if (message.guild) {
+return message.lineReply("Confidential Commands, Use DM");
+}
 
 }
 
+/* ＵＳＥＲ ＡＮＤ ＣＬＩＥＮＴ ＰＥＲＭＩＳＳＩＯＮＳ */
+
+if (command.botPermission) {
+    const Permissions = command.botPermission.filter(x => !message.guild.me.hasPermission(x)).map(x => "`" + x + "`")
+    if (Permissions.length) return message.channel.send(`I need ${Permissions.join(", ")} permission(s) to execute the command!`)
+  } 
+  
+  if (command.authorPermission && !db.has(`${message.guild.id}_root_permi`)) {
+    const Permissions = command.authorPermission.filter(x => !message.member.hasPermission(x)).map(x => "`" + x + "`")
+    if (Permissions.length) return message.channel.send(`You need ${Permissions.join(", ")} permission(s) to execute this command!`)
+  }
+
+if (command) {
+
+command.run(client, message, args);
+
+} else {
+
+
+
+}
 
 }
