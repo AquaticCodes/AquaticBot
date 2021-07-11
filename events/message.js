@@ -274,4 +274,81 @@ if (filterAR.check(message.content) || filterEN.check(message.content) || filter
 
 /* ＡＵＴＯ ＭＯＤＥＲＡＴＩＯＮ ＣＯＭＰＬＥＴＥＤ */
 
+/* ＧＥＴ ＴＨＥ ＰＲＥＦＩＸ ＯＦ ＢＯＴ */
+
+if (message.guild) {
+
+/*
+
+If message was sent from a discord server
+
+then first check if a custom prefix was set
+
+if none was set, use AB as prefix
+
+*/
+
+let prefix = db.get(`prefix_${message.guild.id}`);
+  if (prefix === null) prefix = "AB";
+  
+  if (!message.member) message.member = message.guild.members.fetch(message);
+
+} else {
+
+// if message was sent from dm
+// prefix is AB
+
+let prefix = "AB"
+
+}
+
+/* ＣＵＳＴＯＭ ＣＯＭＭＡＮＤＳ ＩＮ ＦＵＴＵＲＥ ＷＩＬＬ ＢＥ ＡＤＤＥＤ ＨＥＲＥ */
+
+/* ＥＮＤ ＯＦ ＣＵＳＴＯＭ ＣＯＭＭＡＮＤＳ */
+
+if (!message.content.startsWith(prefix)) {
+/*
+
+If message content doesn't start with prefix
+
+then don't respond and stay calm
+
+*/
+
+return;
+
+}
+
+/*
+
+we define a constant called args which is a message content but
+
+# splited of prefix and trimed of spaces
+
+then we define a constant cmd which stands for command as args in lowercase
+
+*/
+
+const args = message.content.slice(prefix.length).trim().split(/ +/g);
+const cmd = args.shift().toLowerCase();
+
+if (cmd.length === 0) return; // If no command or message, stay calm
+
+if (message.guild) {
+
+/* Custom guild commmands checking and execution */
+
+let guildCommands = db.get(`cmd_${message.guild.id}`)
+  if (guildCommands) {
+    let guildCommand_usedNow= guildCommands.find(x => x.name === cmd)
+    if (guildCommand_usedNow) {
+message.channel.send(guildCommand_usedNow.responce)
+}
+  }
+
+}
+
+let command = client.commands.get(cmd); // find the command
+if (!command) command = client.commands.get(client.aliases.get(cmd)); // if no such command, check the command with aliases
+
 }
