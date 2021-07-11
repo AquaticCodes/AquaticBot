@@ -368,11 +368,38 @@ if (!command) command = client.commands.get(client.aliases.get(cmd)); // if no s
 
 if (command.owner) {
 
+/*
+
+If command is having a owner omly option and command
+is not being used by owner
+
+this is confirmed by the user id of owner with that of message author
+
+*/
+
 if (message.author.id != ownerid) {
 return message.lineReplyNoMention("Only My Developer Can Use This Command!");
+
 }
 
 } else if (command.nsfw) {
+
+/*
+
+NSFW, not safe for work 
+
+these command includes nudes or something like that
+and if this command is used on a guild, check the guild
+settings if NSFW is enabled and if the channel is
+marked NSFW
+
+if neither matches, then report the error 
+
+if command was used in dm [ DIRECT MAIL ] then no conditions are checked
+
+*/
+
+if (message.guild) {
 
 if (!db.has(`${message.guild.id}.NSFW`)) {
 return message.lineReply("NSFW Commands Isn't Enabled In This Server");
@@ -388,13 +415,43 @@ return message.lineReply(NSFW_channelsOnly);
 
 }
 
+}
+
 } else if (command.adminsOnly) {
 
-if (!adminsid.includes(message.author.id.toString())) {
+/*
+
+Make some admins in your config in root folder
+and enter admins id in the array
+
+now if command is only for admins and if developer/owner
+of bot isn't using the command, say that the user can't use command
+as its only for admins or above and he isn't a admin
+or the developer of bot
+
+*/
+
+if (!adminsid.includes(message.author.id.toString()) || message.author.id != ownerid) {
 return message.lineReply("You Aren't A Admin Of Aquatic Bot, Thus You Can't Use This Command!");
 }
 
 } else if (command.devmode) {
+
+/*
+
+Developer mode is refered as a special commands set
+which when used modifies settings deep into and makes
+a huge change in bot by modifying database and working
+accordingly changing code functions
+
+Now if command is a developer mode command and
+
+# DEV mode request wasn't granted
+# DEV mode isn't enabled
+
+Then throw error into message channel
+
+*/
 
 if (!db.has(`${message.guild.id}.devmode`)) {
 return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
@@ -403,6 +460,29 @@ return message.lineReply("Developer Mode Isn't Enabled. \n Developer Mode Must B
 }
 
 } else if (command.root) {
+
+/*
+
+Root refers to highest permission settings that are 
+accessed once developer mode is available
+
+these can change the complete functions and thus making bot
+to not check permissions or some conditions or extend
+stuff or manage database manually by users leading to
+database exposure
+
+once the root is enabled its upto user to confirm his/her 
+action and server actions!
+
+we check
+
+# IF DEVMODE REQUEST IS GRANTED
+# IF DEVMODE IS ENABLED
+# IF ROOT IS ACCESSABLE AND ENABLED
+
+and then allow to run commands
+
+*/
 
 if (!db.has(`${message.guild.id}.devmode`)) {
 return message.lineReply("Permission To Enable Developer Mode Isn't Granted To This Server, Drop A Request First Using The devmode/req Command!");
@@ -414,9 +494,31 @@ return message.lineReply("No Root Permission Granted (or) Enabled. \n Enable Roo
 
 } else if (command.guild && !message.guild) {
 
+/*
+
+if commands can be used in a discord server or guild
+only and the user tried to use the command in his/her
+dm, then throw a error and ask him to run it in any server
+where aquatic bot is available
+
+*/
+
 return message.lineReply(`These Commands Such As ${cmd} Must Be Used In Guild [ Any Discord Servers ] Only`);
 
 } else if (command.dm) {
+
+/*
+
+if command is having a instruction to set passcode or
+access id or key ids and other private/confidential information
+then use them in dm,
+
+to do this, check if command is a confidential command
+and if yes and if command is used in a normal server, 
+return a new warn asking user to run these types of commands
+in dm only 
+
+*/
 
 if (message.guild) {
 return message.lineReply("Confidential Commands, Use DM");
@@ -426,21 +528,102 @@ return message.lineReply("Confidential Commands, Use DM");
 
 /* ＵＳＥＲ ＡＮＤ ＣＬＩＥＮＴ ＰＥＲＭＩＳＳＩＯＮＳ */
 
-if (command.botPermission) {
+if (command.botPermission) { 
+/*
+
+if command has a condition to match with bot permission
+and run commands only on having those permissions
+
+for example: 
+
+ban commands needs bot to have ban permissions so
+
+bot checks the number of permissions needed to it and then
+execute command only if all are satisfied already
+
+*/
     const Permissions = command.botPermission.filter(x => !message.guild.me.hasPermission(x)).map(x => "`" + x + "`")
     if (Permissions.length) return message.channel.send(`I need ${Permissions.join(", ")} permission(s) to execute the command!`)
   } 
-  
+  /*
+
+If command is having a author/ user permissions need
+and which is to be checked and confirmed
+
+the bot will check the users permissions and execute command
+once user has all the permissions which he/she are need
+need to execute command and run them
+
+*/
   if (command.authorPermission && !db.has(`${message.guild.id}_root_permi`)) {
     const Permissions = command.authorPermission.filter(x => !message.member.hasPermission(x)).map(x => "`" + x + "`")
     if (Permissions.length) return message.channel.send(`You need ${Permissions.join(", ")} permission(s) to execute this command!`)
   }
 
+// both of these permissions check could be done in one command too
+
 if (command) {
+
+/*
+
+if command is found in aliases or normally and
+
+If none of the restrictions are matched to stop command
+and bot can run command 
+
+*/
 
 command.run(client, message, args);
 
 } else {
+
+/* 
+
+if no such command is found in the entirety of the 
+commands then use the function we said above using 
+Levenshtein Distance algorithm and find the nearest 
+command that is similar to user asked command and send
+it to the channel asking if he meant that command which is 
+close to the command he/she used as it doesn't exist
+
+we use a reaction collector and instead if coding it all
+we are using a npm confirmation so that we can confirm
+
+if users checks the ✅, then execute the nearest command
+
+if none are nearest command then leave it
+
+example:
+
+user: 
+
+AB pung
+
+bot:
+
+Fetches and tries to find command pung,
+
+none will be found as i made none such
+
+so bot will use this else block and find nearest and similar
+command
+
+bot: ah, i see ping, maybe he meant that
+
+bot: *sends to channel* no command pung found, did you mean ping?
+
+user: reacts on ✅
+
+bot: execute ping: My lantecy ping is <ping>ms
+
+The entire function to make that is below
+
+This is last comment as code ends, so yeah
+
+Thanks
+-Aquatic
+
+*/
 
 const nearCommand = simillarCommand(client.commands, cmd);
 
