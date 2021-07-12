@@ -524,6 +524,10 @@ if (message.guild) {
 return message.lineReply("Confidential Commands, Use DM");
 }
 
+} else if (command.args) {
+
+if (command.requiredArgs.includes("@user"
+
 }
 
 /* ＵＳＥＲ ＡＮＤ ＣＬＩＥＮＴ ＰＥＲＭＩＳＳＩＯＮＳ */
